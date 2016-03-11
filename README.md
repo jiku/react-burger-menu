@@ -139,18 +139,18 @@ Animation | `pageWrapId` | `outerContainerId`
 
 #### Position
 
-The menu opens from the left by default. To position it somewhere else (top, right or bottom), use the `placement` prop. It's just a boolean so you don't need to specify a value. Then position the button using CSS.
+The menu opens from the left by default. To position it somewhere else (top, right or bottom), use the `placement` prop. Then position the button using CSS.
 
 ``` javascript
-<Menu position />
+<Menu placement='left | top | right | bottom' />
 ```
 
 #### Width
 
-You can specify the width of the menu (in pixels) with the `width` prop. The default is `300`.
+You can specify the size of the menu (in pixels) with the `size` prop. The default is `300` for vertical and `75` for horizontal.
 
 ``` javascript
-<Menu width={ 280 } />
+<Menu size={ 280 } />
 ```
 
 #### Open state
