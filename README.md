@@ -1,7 +1,7 @@
 react-burger-menu [![Build Status](https://travis-ci.org/negomi/react-burger-menu.svg?branch=master)](https://travis-ci.org/negomi/react-burger-menu)
 =================
 
-An off-canvas sidebar React component with a collection of effects and styles using CSS transitions and SVG path animations.
+An off-canvas menubar React component with a collection of effects and styles using CSS transitions and SVG path animations.
 
 ## Demo & Examples
 
@@ -56,7 +56,7 @@ npm install react-burger-menu@1.1.6 --save
 
 ## Usage
 
-Items for the sidebar should be passed as child elements of the component using JSX.
+Items for the menubar should be passed as child elements of the component using JSX.
 
 ``` javascript
 var Menu = require('react-burger-menu').nameOfAnimation;
@@ -139,10 +139,10 @@ Animation | `pageWrapId` | `outerContainerId`
 
 #### Position
 
-The menu opens from the left by default. To have it open from the right, use the `right` prop. It's just a boolean so you don't need to specify a value. Then set the position of the button using CSS.
+The menu opens from the left by default. To position it somewhere else (top, right or bottom), use the `placement` prop. It's just a boolean so you don't need to specify a value. Then position the button using CSS.
 
 ``` javascript
-<Menu right />
+<Menu position />
 ```
 
 #### Width
@@ -155,7 +155,7 @@ You can specify the width of the menu (in pixels) with the `width` prop. The def
 
 #### Open state
 
-You can control whether the sidebar is open or closed with the `isOpen` prop. This is useful if you need to close the menu after a user clicks on an item in it, for example, or if you want to open the menu from some other button in addition to the standard burger icon. The default value is `false`.
+You can control whether the menubar is open or closed with the `isOpen` prop. This is useful if you need to close the menu after a user clicks on an item in it, for example, or if you want to open the menu from some other button in addition to the standard burger icon. The default value is `false`.
 
 ``` javascript
 <Menu isOpen />
@@ -163,7 +163,7 @@ You can control whether the sidebar is open or closed with the `isOpen` prop. Th
 
 #### State change
 
-You can detect whether the sidebar is open or closed by passing a callback function to `onStateChange`. The callback will receive an object containing the new state as its first argument.
+You can detect whether the menubar is open or closed by passing a callback function to `onStateChange`. The callback will receive an object containing the new state as its first argument.
 
 ``` javascript
 var isMenuOpen = function(state) {
@@ -197,7 +197,7 @@ You should adjust their size using the `.bm-burger-button` and `.bm-cross-button
 There is also an optional `id` prop, which will simply add an ID to the rendered menu's outermost element. This is not required for any functionality.
 
 ``` javascript
-<Menu id={ "sidebar" } />
+<Menu id={ "menubar" } />
 ```
 
 ### Styling
@@ -234,7 +234,7 @@ The component has the following helper classes:
   background: #bdc3c7;
 }
 
-/* General sidebar styles */
+/* General placementbar styles */
 .bm-menu {
   background: #373a47;
   padding: 2.5em 1.5em 0;

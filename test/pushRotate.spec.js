@@ -38,7 +38,7 @@ describe('pushRotate', () => {
     menuWrap = component.props.children[1];
     expect(menuWrap.props.style.position).to.equal('fixed');
     expect(menuWrap.props.style.zIndex).to.equal(2);
-    expect(menuWrap.props.style.width).to.equal(300);
+    expect(menuWrap.props.style.size).to.equal(300);
     expect(menuWrap.props.style.height).to.equal('100%');
   });
 
@@ -62,8 +62,8 @@ describe('pushRotate', () => {
     expect(firstItem.style.outline).to.equal('none');
   });
 
-  it('can be positioned on the right', () => {
-    component = TestUtils.renderIntoDocument(<Menu pageWrapId={ 'page-wrap' } outerContainerId={ 'outer-container' } right><div>An item</div></Menu>);
+  it('can be positioned on the position', () => {
+    component = TestUtils.renderIntoDocument(<Menu pageWrapId={ 'page-wrap' } outerContainerId={ 'outer-container' } position><div>An item</div></Menu>);
     menuWrap = TestUtils.findRenderedDOMComponentWithClass(component, 'bm-menu-wrap');
     expect(menuWrap.style.right).to.equal('0px');
   });

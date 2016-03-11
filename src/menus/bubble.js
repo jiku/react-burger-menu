@@ -27,47 +27,106 @@ const styles = {
     }
   },
 
-  morphShape(isOpen, width, right) {
+  morphShape(isOpen, size, placement) {
     return {
       position: 'fixed',
       width: '100%',
       height: '100%',
-      right: right ? 'inherit' : 0,
-      left: right ? 0 : 'inherit',
-      transform: right ? 'rotateY(180deg)' : 'rotateY(0deg)'
+      placement: placement ? 'inherit' : 0,
+      left: placement ? 0 : 'inherit',
+      transform: placement ? 'rotateY(180deg)' : 'rotateY(0deg)'
     };
   },
 
-  menuWrap(isOpen, width, right) {
+  menuWrap(isOpen, size, placement) {
+    let _placement = '';
+    switch (placement) {
+      case 'left':
+        _placement = 'translate3d(100%, 0, 0)';
+        break;
+      case 'top':
+        break;
+      case 'right':
+        _placement = 'translate3d(-100%, 0, 0)';
+        break;
+      case 'bottom':
+        break;
+    }
+
     return {
-      transform: isOpen ? 'translate3d(0, 0, 0)' : right ? 'translate3d(100%, 0, 0)' : 'translate3d(-100%, 0, 0)',
+      transform: isOpen ? 'translate3d(0, 0, 0)' : _placement,
       transition: isOpen ? 'transform 0.4s 0s' : 'transform 0.4s'
     };
   },
 
-  menu(isOpen, width, right) {
-    width -= 140;
+  menu(isOpen, size, placement) {
+    size -= 140;
+
+    let _placement = '';
+    switch (placement) {
+      case 'left':
+        _placement = `translate3d(-${size}px, 0, 0)`;
+        break;
+      case 'top':
+        break;
+      case 'right':
+        _placement = `translate3d(${size}px, 0, 0)`;
+        break;
+      case 'bottom':
+        break;
+    }
+
     return {
       position: 'fixed',
-      transform: isOpen ? '' : right ? `translate3d(${width}px, 0, 0)` : `translate3d(-${width}px, 0, 0)`,
+      transform: isOpen ? '' : _placement,
       transition: isOpen ? 'opacity 0.1s 0.4s cubic-bezier(.17, .67, .1, 1.27), transform 0.1s 0.4s cubic-bezier(.17, .67, .1, 1.27)' : 'opacity 0s 0.3s cubic-bezier(.17, .67, .1, 1.27), transform 0s 0.3s cubic-bezier(.17, .67, .1, 1.27)',
       opacity: isOpen ? 1 : 0
     };
   },
 
-  item(isOpen, width, right, nthChild) {
-    width -= 140;
+  item(isOpen, size, placement, nthChild) {
+    size -= 140;
+
+    let _placement = '';
+    switch (placement) {
+      case 'left':
+        _placement = `translate3d(-${size}px, 0, 0)`;
+        break;
+      case 'top':
+        break;
+      case 'right':
+        _placement = `translate3d(${size}px, 0, 0)`;
+        break;
+      case 'bottom':
+        break;
+    }
+
     return {
-      transform: isOpen ? 'translate3d(0, 0, 0)' : right ? `translate3d(${width}px, 0, 0)` : `translate3d(-${width}px, 0, 0)`,
+      transform: isOpen ? 'translate3d(0, 0, 0)' : _placement,
       transition: isOpen ? 'opacity 0.3s 0.4s, transform 0.3s 0.4s' : 'opacity 0s 0.3s cubic-bezier(.17, .67, .1, 1.27), transform 0s 0.3s cubic-bezier(.17, .67, .1, 1.27)',
       opacity: isOpen ? 1 : 0
     };
   },
 
-  closeButton(isOpen, width, right) {
-    width -= 140;
+  closeButton(isOpen, size, placement) {
+    size -= 140;
+
+    let _placement = '';
+    switch (placement) {
+      case 'left':
+        _placement = `translate3d(-${size}px, 0, 0)`;
+        break;
+      case 'top':
+        break;
+      case 'right':
+        _placement = `translate3d(${size}px, 0, 0)`;
+        break;
+      case 'bottom':
+        break;
+    }
+
     return {
-      transform: isOpen ? 'translate3d(0, 0, 0)' : right ? `translate3d(${width}px, 0, 0)` : `translate3d(-${width}px, 0, 0)`,
+      transform: isOpen ? 'translate3d(0, 0, 0)' : _placement,
       transition: isOpen ? 'opacity 0.3s 0.4s cubic-bezier(.17, .67, .1, 1.27), transform 0.3s 0.4s cubic-bezier(.17, .67, .1, 1.27)' : 'opacity 0s 0.3s cubic-bezier(.17, .67, .1, 1.27), transform 0s 0.3s cubic-bezier(.17, .67, .1, 1.27)',
       opacity: isOpen ? 1 : 0
     };

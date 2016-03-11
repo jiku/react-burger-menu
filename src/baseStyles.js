@@ -15,38 +15,118 @@ let styles = {
     };
   },
 
-  menuWrap(isOpen, width, right) {
-    return {
+  menuWrap(isOpen, size, placement) {
+    let _transform = '';
+    let _placement = {};
+    let _dimensions = {};
+
+    console.log("Yo then", isOpen, size, placement);
+
+    switch (placement) {
+      case 'left':
+        _transform = 'translate3d(-100%, 0, 0)';
+        _placement = {
+          left: 0,
+          top: 0
+        };
+        // _right = 0; // Screen width - this width, etc. But really don't inform.
+        break;
+      case 'top':
+        _transform = 'translate3d(0, -100%, 0)';
+        _placement = {
+          left: 0,
+          top: 0
+        };
+        break;
+      case 'right':
+        _transform = 'translate3d(100%, 0, 0)';
+        _placement = {
+          top: 0,
+          right: 0
+        };
+        break;
+      case 'bottom':
+        _transform = 'translate3d(0, 100%, 0)';
+        _placement = {
+          left: 0,
+          bottom: 0
+        };
+        break;
+    }
+
+    if (placement === 'left' || placement === 'right') {
+      _dimensions = {
+        width: size.width,
+        height: '100%'
+      };
+    } else {
+      _dimensions = {
+        width: '100%',
+        height: size.height
+      };
+    }
+
+    let _style = {
       position: 'fixed',
-      right: right ? 0 : 'inherit',
       zIndex: 2,
-      width,
-      height: '100%',
-      transform: isOpen ? '' : right ? 'translate3d(100%, 0, 0)' : 'translate3d(-100%, 0, 0)',
+      transform: isOpen ? '' : _transform,
       transition: 'all 0.5s'
     };
+
+    _style = Object.assign(_style, _placement, _dimensions);
+
+    return _style;
   },
 
-  menu() {
-    return {
-      height: '100%',
-      boxSizing: 'border-box'
-    };
+  menu(isOpen, size, placement) {
+    let _style = {};
+    if (placement === 'left' || placement === 'right') {
+      _style = {
+        width: size.width,
+        height: '100%',
+        boxSizing: 'border-box'
+      };
+    } else {
+      _style = {
+        width: '100%',
+        height: size.height,
+        boxSizing: 'border-box'
+      };
+    }
+    return _style;
   },
 
-  itemList() {
-    return {
-      height: '100%'
-    };
+  itemList(isOpen, size, placement) {
+    console.log("list says", placement, size);
+    let _style = {};
+    if (placement === 'left' || placement === 'right') {
+      _style = {
+        width: size.width,
+        height: '100%'
+      };
+    } else {
+      _style = {
+        width: '100%',
+        height: size.height
+      };
+    }
+    return _style;
   },
 
-  item() {
-    return {
-      display: 'block',
-      outline: 'none'
-    };
+  item(isOpen, size, placement) {
+    let _style = {};
+    if (placement === 'left' || placement === 'right') {
+      _style = {
+        display: 'block',
+        outline: 'none'
+      };
+    } else {
+      _style = {
+        outline: 'none'
+      };
+    }
+    return _style;
   }
-
 };
 
 export default styles;

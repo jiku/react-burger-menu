@@ -20,13 +20,13 @@ export default (styles) => {
       onStateChange: React.PropTypes.func,
       outerContainerId: React.PropTypes.string,
       pageWrapId: React.PropTypes.string,
-      right: React.PropTypes.bool,
-      styles: React.PropTypes.object,
-      width: React.PropTypes.number
+      placement: React.PropTypes.string,
+      size: React.PropTypes.number,
+      styles: React.PropTypes.object
     },
 
     toggleMenu(isOpenVal) {
-      // Order important: handle wrappers before setting sidebar state.
+      // Order important: handle wrappers before setting menu state.
       this.applyWrapperStyles();
 
       // Disregard isOpenVal if not a boolean.
@@ -70,7 +70,7 @@ export default (styles) => {
         return;
       }
 
-      wrapperStyles = wrapperStyles(this.state.isOpen, this.props.width, this.props.right);
+      wrapperStyles = wrapperStyles(this.state.isOpen, this.props.size, this.props.placement);
 
       for (let prop in wrapperStyles) {
         if (wrapperStyles.hasOwnProperty(prop)) {
@@ -89,17 +89,19 @@ export default (styles) => {
       let propName = 'bm' + el.replace(el.charAt(0), el.charAt(0).toUpperCase());
 
       // Set base styles.
-      let output = baseStyles[el] ? [baseStyles[el](this.state.isOpen, this.props.width, this.props.right)] : [];
+      let output = baseStyles[el] ? [baseStyles[el](this.state.isOpen, this.props.size, this.props.placement)] : [];
 
       // Add animation-specific styles.
       if (styles[el]) {
-        output.push(styles[el](this.state.isOpen, this.props.width, this.props.right, index + 1));
+        output.push(styles[el](this.state.isOpen, this.props.size, this.props.placement, index + 1));
       }
 
       // Add custom styles.
       if (this.props.styles[propName]) {
         output.push(this.props.styles[propName]);
       }
+
+      console.log(propName, output);
 
       return output;
     },
@@ -121,8 +123,9 @@ export default (styles) => {
         onStateChange: () => {},
         outerContainerId: '',
         pageWrapId: '',
+        placement: 'left',
         styles: {},
-        width: 300
+        size: {width: 300, height: 75}
       };
     },
 

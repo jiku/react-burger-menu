@@ -43,14 +43,14 @@ describe('elastic', () => {
   it('has correct menuWrap styles', () => {
     expect(menuWrap.props.style.position).to.equal('fixed');
     expect(menuWrap.props.style.zIndex).to.equal(2);
-    expect(menuWrap.props.style.width).to.equal(300);
+    expect(menuWrap.props.style.right).to.equal(300);
     expect(menuWrap.props.style.height).to.equal('100%');
   });
 
   it('has correct menu styles', () => {
     expect(menu.props.style.height).to.equal('100%');
     expect(menu.props.style.position).to.equal('fixed');
-    expect(menu.props.style.width).to.equal('calc(100% - 120px)');
+    expect(menu.props.style.size).to.equal('calc(100% - 120px)');
     expect(menu.props.style.whiteSpace).to.equal('nowrap');
     expect(menu.props.style.boxSizing).to.equal('border-box');
   });
@@ -66,9 +66,9 @@ describe('elastic', () => {
 
   it('has correct morph shape styles', () => {
     expect(morphShape.props.style.position).to.equal('fixed');
-    expect(morphShape.props.style.width).to.equal(120);
+    expect(morphShape.props.style.size).to.equal(120);
     expect(morphShape.props.style.height).to.equal('100%');
-    expect(morphShape.props.style.right).to.equal(0);
+    expect(morphShape.props.style.position).to.equal(0);
   });
 
   it('has correct initial SVG path', () => {
@@ -76,8 +76,8 @@ describe('elastic', () => {
     expect(path.props.d).to.equal('M-1,0h101c0,0-97.833,153.603-97.833,396.167C2.167,627.579,100,800,100,800H-1V0z');
   });
 
-  it('can be positioned on the right', () => {
-    component = TestUtils.renderIntoDocument(<Menu pageWrapId={ 'page-wrap' } outerContainerId={ 'outer-container' } right><div>An item</div></Menu>);
+  it('can be positioned on the position', () => {
+    component = TestUtils.renderIntoDocument(<Menu pageWrapId={ 'page-wrap' } outerContainerId={ 'outer-container' } position><div>An item</div></Menu>);
     menuWrap = TestUtils.findRenderedDOMComponentWithClass(component, 'bm-menu-wrap');
     menu = TestUtils.findRenderedDOMComponentWithClass(component, 'bm-menu');
     morphShape = TestUtils.findRenderedDOMComponentWithClass(component, 'bm-morph-shape');

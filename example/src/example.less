@@ -75,9 +75,9 @@ h1 {
   }
 }
 
-.side-button {
+.placement-button {
   display: inline-block;
-  width: 5em;
+  width: 6em;
   height: 2.5em;
   line-height: 2.5em;
   cursor: pointer;
@@ -92,7 +92,13 @@ h1 {
     border-bottom-left-radius: 10px;
   }
 
+  &.top {
+  }
+
   &.right {
+  }
+
+  &.bottom {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
   }
@@ -124,15 +130,27 @@ h1 {
 //
 .bm-burger-button {
   position: fixed;
+  top: 36px;
   width: 36px;
   height: 30px;
+}
+
+.left .bm-burger-button {
   left: 36px;
-  top: 36px;
+}
+
+.top .bm-burger-button {
+  left: 50%;
 }
 
 .right .bm-burger-button {
-  left: initial;
   right: 36px;
+}
+
+.bottom .bm-burger-button {
+  left: 50%;
+  top: initial;
+  bottom: 36px;
 }
 
 .bm-burger-bars {
@@ -156,6 +174,56 @@ h1 {
   }
 }
 
+.top .bm-menu {
+  display: flex;
+  align-items: center;
+}
+
+.top .bm-item-list {
+  display: flex;
+  flex-flow: row;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom .bm-menu {
+  display: flex;
+  align-items: center;
+}
+
+.bottom .bm-item-list {
+  display: flex;
+  flex-flow: row;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.left .bm-menu {
+  display: flex;
+}
+
+.left .bm-item-list {
+  display: flex;
+  padding: 2.5em 1.5em 0;
+  flex-flow: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.right .bm-menu {
+  display: flex;
+}
+
+.right .bm-item-list {
+  display: flex;
+  padding: 2.5em 1.5em 0;
+  flex-flow: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
 .bm-item-list a {
   padding: 0.8em;
 
@@ -174,7 +242,6 @@ h1 {
   }
 
   .bm-menu {
-    padding: 2.5em 1.5em 0;
     font-size: 1.15em;
   }
 }

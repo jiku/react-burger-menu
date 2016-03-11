@@ -4,9 +4,9 @@ import menuFactory from '../menuFactory';
 
 const styles = {
 
-  pageWrap(isOpen, width) {
+  pageWrap(isOpen, size) {
     return {
-      transform: isOpen ? '' : `translate3d(0, 0, -${width}px)`,
+      transform: isOpen ? '' : `translate3d(0, 0, -${size}px)`,
       transformOrigin: '100%',
       transformStyle: 'preserve-3d',
       transition: 'all 0.5s'

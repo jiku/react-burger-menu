@@ -20,7 +20,7 @@ describe('slide', () => {
     const menuWrap = component.props.children[1];
     expect(menuWrap.props.style.position).to.equal('fixed');
     expect(menuWrap.props.style.zIndex).to.equal(2);
-    expect(menuWrap.props.style.width).to.equal(300);
+    expect(menuWrap.props.style.size).to.equal(300);
     expect(menuWrap.props.style.height).to.equal('100%');
   });
 
@@ -41,8 +41,8 @@ describe('slide', () => {
     expect(firstItem.style.outline).to.equal('none');
   });
 
-  it('can be positioned on the right', () => {
-    component = TestUtils.renderIntoDocument(<Menu right><div>An item</div></Menu>);
+  it('can be positioned on the position', () => {
+    component = TestUtils.renderIntoDocument(<Menu position><div>An item</div></Menu>);
     const menuWrap = TestUtils.findRenderedDOMComponentWithClass(component, 'bm-menu-wrap');
     expect(menuWrap.style.right).to.equal('0px');
   });

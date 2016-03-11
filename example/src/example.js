@@ -10,9 +10,9 @@ let MenuWrap = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    const sideChanged = this.props.children.props.right !== nextProps.children.props.right;
+    const placementChanged = this.props.children.props.placement !== nextProps.children.props.placement;
 
-    if (sideChanged) {
+    if (placementChanged) {
       this.setState({ hidden : true });
 
       setTimeout(() => {
@@ -33,7 +33,7 @@ let MenuWrap = React.createClass({
     }
 
     return (
-      <div style={ style } className={ this.props.side }>
+      <div style={ style } className={ this.props.placement }>
         { this.props.children }
       </div>
     );
@@ -46,8 +46,8 @@ let Demo = React.createClass({
     this.setState({ currentMenu: menu });
   },
 
-  changeSide(side) {
-    this.setState({ side });
+  changePlacement(placement) {
+    this.setState({ placement });
   },
 
   getItems() {
@@ -92,24 +92,15 @@ let Demo = React.createClass({
     const Menu = BurgerMenu[this.state.currentMenu];
     const items = this.getItems();
     let jsx;
+    console.log("In getMenu", this.state.placement);
 
-    if (this.state.side === 'right') {
-      jsx = (
-        <MenuWrap wait={ 20 } side={ this.state.side }>
-          <Menu id={ this.state.currentMenu } pageWrapId={ "page-wrap" } outerContainerId={ "outer-container" } right>
-            { items }
-          </Menu>
-        </MenuWrap>
-      );
-    } else {
-      jsx = (
-        <MenuWrap wait={ 20 }>
-          <Menu id={ this.state.currentMenu } pageWrapId={ "page-wrap" } outerContainerId={ "outer-container" }>
-            { items }
-          </Menu>
-        </MenuWrap>
-      );
-    }
+    jsx = (
+      <MenuWrap wait={ 20 } placement={ this.state.placement }>
+        <Menu id={ this.state.currentMenu } pageWrapId={ "page-wrap" } outerContainerId={ "outer-container" } placement={ this.state.placement }>
+          { items }
+        </Menu>
+      </MenuWrap>
+    );
 
     return jsx;
   },
@@ -117,7 +108,7 @@ let Demo = React.createClass({
   getInitialState() {
     return {
       currentMenu: 'slide',
-      side: 'left'
+      placement: 'left'
     };
   },
 
@@ -133,13 +124,15 @@ let Demo = React.createClass({
     });
 
     return (
-      <div id="outer-container" style={ { height: '100%' } }>
+      <div id="outer-container" style={ { width: '100%', height: '100%' } }>
         { this.getMenu() }
         <main id="page-wrap">
           <h1><a href="https://github.com/negomi/react-burger-menu">react-burger-menu</a></h1>
-          <a className={ classNames({'side-button': true, 'left': true, 'active': this.state.side === 'left'}) } onClick={ this.changeSide.bind(this, 'left') }>Left</a>
-          <a className={ classNames({'side-button': true, 'right': true, 'active': this.state.side === 'right'}) } onClick={ this.changeSide.bind(this, 'right') }>Right</a>
-          <h2 className="description">An off-canvas sidebar React component with a collection of effects and styles using CSS transitions and SVG path animations.</h2>
+          <a className={ classNames({'placement-button': true, 'left': true, 'active': this.state.placement === 'left'}) } onClick={ this.changePlacement.bind(this, 'left') }>Left</a>
+          <a className={ classNames({'placement-button': true, 'top': true, 'active': this.state.placement === 'top'}) } onClick={ this.changePlacement.bind(this, 'top') }>Top</a>
+          <a className={ classNames({'placement-button': true, 'right': true, 'active': this.state.placement === 'right'}) } onClick={ this.changePlacement.bind(this, 'right') }>Right</a>
+          <a className={ classNames({'placement-button': true, 'bottom': true, 'active': this.state.placement === 'bottom'}) } onClick={ this.changePlacement.bind(this, 'bottom') }>Bottom</a>
+          <h2 className="description">An off-canvas menubar React component with a collection of effects and styles using CSS transitions and SVG path animations.</h2>
           <nav className="demo-buttons">
             { buttons }
           </nav>

@@ -41,9 +41,6 @@ var BurgerIcon = (0, _radium2['default'])(_react2['default'].createClass({
             var buttonStyle = {
                     position: 'absolute',
                     left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
                     margin: 0,
                     padding: 0,
                     border: 'none',
@@ -223,6 +220,17 @@ module.exports = exports['default'];
 },{}],4:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
+var _extends = Object.assign || function (target) {
+        for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i];
+            for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    target[key] = source[key];
+                }
+            }
+        }
+        return target;
+    };
 var styles = {
         overlay: function overlay(isOpen) {
             return {
@@ -236,31 +244,105 @@ var styles = {
                 transition: isOpen ? 'opacity 0.3s' : 'opacity 0.3s, transform 0s 0.3s'
             };
         },
-        menuWrap: function menuWrap(isOpen, width, right) {
-            return {
-                position: 'fixed',
-                right: right ? 0 : 'inherit',
-                zIndex: 2,
-                width: width,
-                height: '100%',
-                transform: isOpen ? '' : right ? 'translate3d(100%, 0, 0)' : 'translate3d(-100%, 0, 0)',
-                transition: 'all 0.5s'
-            };
+        menuWrap: function menuWrap(isOpen, size, placement) {
+            var _transform = '';
+            var _placement = {};
+            var _dimensions = {};
+            console.log('Yo then', isOpen, size, placement);
+            switch (placement) {
+            case 'left':
+                _transform = 'translate3d(-100%, 0, 0)';
+                _placement = {
+                    left: 0,
+                    top: 0
+                };
+                break;
+            case 'top':
+                _transform = 'translate3d(0, -100%, 0)';
+                _placement = {
+                    left: 0,
+                    top: 0
+                };
+                break;
+            case 'right':
+                _transform = 'translate3d(100%, 0, 0)';
+                _placement = {
+                    top: 0,
+                    right: 0
+                };
+                break;
+            case 'bottom':
+                _transform = 'translate3d(0, 100%, 0)';
+                _placement = {
+                    left: 0,
+                    bottom: 0
+                };
+                break;
+            }
+            if (placement === 'left' || placement === 'right') {
+                _dimensions = {
+                    width: size.width,
+                    height: '100%'
+                };
+            } else {
+                _dimensions = {
+                    width: '100%',
+                    height: size.height
+                };
+            }
+            var _style = {
+                    position: 'fixed',
+                    zIndex: 2,
+                    transform: isOpen ? '' : _transform,
+                    transition: 'all 0.5s'
+                };
+            _style = _extends(_style, _placement, _dimensions);
+            return _style;
         },
-        menu: function menu() {
-            return {
-                height: '100%',
-                boxSizing: 'border-box'
-            };
+        menu: function menu(isOpen, size, placement) {
+            var _style = {};
+            if (placement === 'left' || placement === 'right') {
+                _style = {
+                    width: size.width,
+                    height: '100%',
+                    boxSizing: 'border-box'
+                };
+            } else {
+                _style = {
+                    width: '100%',
+                    height: size.height,
+                    boxSizing: 'border-box'
+                };
+            }
+            return _style;
         },
-        itemList: function itemList() {
-            return { height: '100%' };
+        itemList: function itemList(isOpen, size, placement) {
+            console.log('list says', placement, size);
+            var _style = {};
+            if (placement === 'left' || placement === 'right') {
+                _style = {
+                    width: size.width,
+                    height: '100%'
+                };
+            } else {
+                _style = {
+                    width: '100%',
+                    height: size.height
+                };
+            }
+            return _style;
         },
-        item: function item() {
-            return {
-                display: 'block',
-                outline: 'none'
-            };
+        item: function item(isOpen, size, placement) {
+            var _style = {};
+            if (placement === 'left' || placement === 'right') {
+                _style = {
+                    display: 'block',
+                    outline: 'none'
+                };
+            } else {
+                _style = { outline: 'none' };
+            }
+            return _style;
         }
     };
 exports['default'] = styles;
@@ -295,9 +377,9 @@ exports['default'] = function (styles) {
             onStateChange: _react2['default'].PropTypes.func,
             outerContainerId: _react2['default'].PropTypes.string,
             pageWrapId: _react2['default'].PropTypes.string,
-            right: _react2['default'].PropTypes.bool,
-            styles: _react2['default'].PropTypes.object,
-            width: _react2['default'].PropTypes.number
+            placement: _react2['default'].PropTypes.string,
+            size: _react2['default'].PropTypes.number,
+            styles: _react2['default'].PropTypes.object
         },
         toggleMenu: function toggleMenu(isOpenVal) {
             this.applyWrapperStyles();
@@ -328,7 +410,7 @@ exports['default'] = function (styles) {
                 console.error('Element with ID \'' + id + '\' not found');
                 return;
             }
-            wrapperStyles = wrapperStyles(this.state.isOpen, this.props.width, this.props.right);
+            wrapperStyles = wrapperStyles(this.state.isOpen, this.props.size, this.props.placement);
             for (var prop in wrapperStyles) {
                 if (wrapperStyles.hasOwnProperty(prop)) {
                     wrapper.style[prop] = set ? wrapperStyles[prop] : '';
@@ -343,13 +425,14 @@ exports['default'] = function (styles) {
         },
         getStyles: function getStyles(el, index) {
             var propName = 'bm' + el.replace(el.charAt(0), el.charAt(0).toUpperCase());
-            var output = _baseStyles2['default'][el] ? [_baseStyles2['default'][el](this.state.isOpen, this.props.width, this.props.right)] : [];
+            var output = _baseStyles2['default'][el] ? [_baseStyles2['default'][el](this.state.isOpen, this.props.size, this.props.placement)] : [];
             if (styles[el]) {
-                output.push(styles[el](this.state.isOpen, this.props.width, this.props.right, index + 1));
+                output.push(styles[el](this.state.isOpen, this.props.size, this.props.placement, index + 1));
             }
             if (this.props.styles[propName]) {
                 output.push(this.props.styles[propName]);
             }
+            console.log(propName, output);
             return output;
         },
         listenForClose: function listenForClose(e) {
@@ -368,8 +451,12 @@ exports['default'] = function (styles) {
                 },
                 outerContainerId: '',
                 pageWrapId: '',
+                placement: 'left',
                 styles: {},
-                width: 300
+                size: {
+                    width: 300,
+                    height: 75
+                }
             };
         },
         getInitialState: function getInitialState() {
@@ -403,7 +490,7 @@ exports['default'] = function (styles) {
                     var snap = undefined;
                     try {
                         snap = function () {
-                            throw new Error('Cannot find module \'imports?this=>window,fix=>module.exports=0!snapsvg/dist/snap.svg.js\' from \'/Users/imogen/code/react-burger-menu/src\'');
+                            throw new Error('Cannot find module \'imports?this=>window,fix=>module.exports=0!snapsvg/dist/snap.svg.js\' from \'/Volumes/Data/Dev/Projects/jiku/Again/app/src/.meteor/local/webpack-npm/node_modules/react-burger-menu/src\'');
                         }();
                     } catch (e) {
                         snap = typeof window !== 'undefined' ? window['Snap'] : typeof global !== 'undefined' ? global['Snap'] : null;
@@ -509,43 +596,95 @@ var styles = {
                 nextStep();
             }
         },
-        morphShape: function morphShape(isOpen, width, right) {
+        morphShape: function morphShape(isOpen, size, placement) {
             return {
                 position: 'fixed',
                 width: '100%',
                 height: '100%',
-                right: right ? 'inherit' : 0,
-                left: right ? 0 : 'inherit',
-                transform: right ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                placement: placement ? 'inherit' : 0,
+                left: placement ? 0 : 'inherit',
+                transform: placement ? 'rotateY(180deg)' : 'rotateY(0deg)'
             };
         },
-        menuWrap: function menuWrap(isOpen, width, right) {
+        menuWrap: function menuWrap(isOpen, size, placement) {
+            var _placement = '';
+            switch (placement) {
+            case 'left':
+                _placement = 'translate3d(100%, 0, 0)';
+                break;
+            case 'top':
+                break;
+            case 'right':
+                _placement = 'translate3d(-100%, 0, 0)';
+                break;
+            case 'bottom':
+                break;
+            }
             return {
-                transform: isOpen ? 'translate3d(0, 0, 0)' : right ? 'translate3d(100%, 0, 0)' : 'translate3d(-100%, 0, 0)',
+                transform: isOpen ? 'translate3d(0, 0, 0)' : _placement,
                 transition: isOpen ? 'transform 0.4s 0s' : 'transform 0.4s'
             };
         },
-        menu: function menu(isOpen, width, right) {
-            width -= 140;
+        menu: function menu(isOpen, size, placement) {
+            size -= 140;
+            var _placement = '';
+            switch (placement) {
+            case 'left':
+                _placement = 'translate3d(-' + size + 'px, 0, 0)';
+                break;
+            case 'top':
+                break;
+            case 'right':
+                _placement = 'translate3d(' + size + 'px, 0, 0)';
+                break;
+            case 'bottom':
+                break;
+            }
             return {
                 position: 'fixed',
-                transform: isOpen ? '' : right ? 'translate3d(' + width + 'px, 0, 0)' : 'translate3d(-' + width + 'px, 0, 0)',
+                transform: isOpen ? '' : _placement,
                 transition: isOpen ? 'opacity 0.1s 0.4s cubic-bezier(.17, .67, .1, 1.27), transform 0.1s 0.4s cubic-bezier(.17, .67, .1, 1.27)' : 'opacity 0s 0.3s cubic-bezier(.17, .67, .1, 1.27), transform 0s 0.3s cubic-bezier(.17, .67, .1, 1.27)',
                 opacity: isOpen ? 1 : 0
             };
         },
-        item: function item(isOpen, width, right, nthChild) {
-            width -= 140;
+        item: function item(isOpen, size, placement, nthChild) {
+            size -= 140;
+            var _placement = '';
+            switch (placement) {
+            case 'left':
+                _placement = 'translate3d(-' + size + 'px, 0, 0)';
+                break;
+            case 'top':
+                break;
+            case 'right':
+                _placement = 'translate3d(' + size + 'px, 0, 0)';
+                break;
+            case 'bottom':
+                break;
+            }
             return {
-                transform: isOpen ? 'translate3d(0, 0, 0)' : right ? 'translate3d(' + width + 'px, 0, 0)' : 'translate3d(-' + width + 'px, 0, 0)',
+                transform: isOpen ? 'translate3d(0, 0, 0)' : _placement,
                 transition: isOpen ? 'opacity 0.3s 0.4s, transform 0.3s 0.4s' : 'opacity 0s 0.3s cubic-bezier(.17, .67, .1, 1.27), transform 0s 0.3s cubic-bezier(.17, .67, .1, 1.27)',
                 opacity: isOpen ? 1 : 0
             };
         },
-        closeButton: function closeButton(isOpen, width, right) {
-            width -= 140;
+        closeButton: function closeButton(isOpen, size, placement) {
+            size -= 140;
+            var _placement = '';
+            switch (placement) {
+            case 'left':
+                _placement = 'translate3d(-' + size + 'px, 0, 0)';
+                break;
+            case 'top':
+                break;
+            case 'right':
+                _placement = 'translate3d(' + size + 'px, 0, 0)';
+                break;
+            case 'bottom':
+                break;
+            }
             return {
-                transform: isOpen ? 'translate3d(0, 0, 0)' : right ? 'translate3d(' + width + 'px, 0, 0)' : 'translate3d(-' + width + 'px, 0, 0)',
+                transform: isOpen ? 'translate3d(0, 0, 0)' : _placement,
                 transition: isOpen ? 'opacity 0.3s 0.4s cubic-bezier(.17, .67, .1, 1.27), transform 0.3s 0.4s cubic-bezier(.17, .67, .1, 1.27)' : 'opacity 0s 0.3s cubic-bezier(.17, .67, .1, 1.27), transform 0s 0.3s cubic-bezier(.17, .67, .1, 1.27)',
                 opacity: isOpen ? 1 : 0
             };
@@ -569,42 +708,68 @@ var styles = {
                 path.animate({ path: this.pathOpen }, 400, window.mina.easeinout);
             }
         },
-        morphShape: function morphShape(isOpen, width, right) {
+        morphShape: function morphShape(isOpen, size, placement) {
             return {
                 position: 'fixed',
                 width: 120,
                 height: '100%',
-                right: right ? 'inherit' : 0,
-                left: right ? 0 : 'inherit',
-                transform: right ? 'rotateY(180deg)' : ''
+                placement: placement ? 'inherit' : 0,
+                left: placement ? 0 : 'inherit',
+                transform: placement ? 'rotateY(180deg)' : ''
             };
         },
-        menuWrap: function menuWrap(isOpen, width, right) {
+        menuWrap: function menuWrap(isOpen, size, placement) {
+            var _placement = '';
+            switch (placement) {
+            case 'left':
+                _placement = 'translate3d(100%, 0, 0)';
+                break;
+            case 'top':
+                break;
+            case 'right':
+                _placement = 'translate3d(-100%, 0, 0)';
+                break;
+            case 'bottom':
+                break;
+            }
             return {
-                transform: isOpen ? 'translate3d(0, 0, 0)' : right ? 'translate3d(100%, 0, 0)' : 'translate3d(-100%, 0, 0)',
+                transform: isOpen ? 'translate3d(0, 0, 0)' : _placement,
                 transition: 'all 0.3s'
             };
         },
-        menu: function menu(isOpen, width, right) {
+        menu: function menu(isOpen, size, placement) {
             return {
                 position: 'fixed',
-                right: right ? 0 : 'inherit',
+                placement: placement ? 0 : 'inherit',
                 width: 'calc(100% - 120px)',
                 whiteSpace: 'nowrap',
                 boxSizing: 'border-box'
             };
         },
-        itemList: function itemList(isOpen, width, right) {
+        itemList: function itemList(isOpen, size, placement) {
             if (right) {
                 return {
-                    position: 'relative',
+                    placement: 'relative',
                     left: '-110px'
                 };
             }
         },
-        pageWrap: function pageWrap(isOpen, width, right) {
+        pageWrap: function pageWrap(isOpen, size, placement) {
+            var _placement = '';
+            switch (placement) {
+            case 'left':
+                _placement = 'translate3d(-100px, 0, 0)';
+                break;
+            case 'top':
+                break;
+            case 'right':
+                _placement = 'translate3d(100px, 0, 0)';
+                break;
+            case 'bottom':
+                break;
+            }
             return {
-                transform: isOpen ? '' : right ? 'translate3d(-100px, 0, 0)' : 'translate3d(100px, 0, 0)',
+                transform: isOpen ? '' : _placement,
                 transition: isOpen ? 'all 0.3s' : 'all 0.3s 0.1s'
             };
         },
@@ -629,9 +794,9 @@ var styles = {
                 transition: 'all 0.5s ease-in-out'
             };
         },
-        pageWrap: function pageWrap(isOpen, width, right) {
+        pageWrap: function pageWrap(isOpen, size, placement) {
             return {
-                transform: isOpen ? '' : right ? 'translate3d(-' + width + 'px, 0, 0)' : 'translate3d(' + width + 'px, 0, 0)',
+                transform: isOpen ? '' : placement ? 'translate3d(-' + width + 'px, 0, 0)' : 'translate3d(' + width + 'px, 0, 0)',
                 transition: 'all 0.5s'
             };
         },
@@ -654,9 +819,9 @@ function _interopRequireDefault(obj) {
 var _menuFactory = require('../menuFactory');
 var _menuFactory2 = _interopRequireDefault(_menuFactory);
 var styles = {
-        pageWrap: function pageWrap(isOpen, width, right) {
+        pageWrap: function pageWrap(isOpen, size, placement) {
             return {
-                transform: isOpen ? '' : right ? 'translate3d(-' + width + 'px, 0, 0)' : 'translate3d(' + width + 'px, 0, 0)',
+                transform: isOpen ? '' : placement ? 'translate3d(-' + width + 'px, 0, 0)' : 'translate3d(' + width + 'px, 0, 0)',
                 transition: 'all 0.5s'
             };
         },
@@ -675,10 +840,25 @@ function _interopRequireDefault(obj) {
 var _menuFactory = require('../menuFactory');
 var _menuFactory2 = _interopRequireDefault(_menuFactory);
 var styles = {
-        pageWrap: function pageWrap(isOpen, width, right) {
+        pageWrap: function pageWrap(isOpen, size, placement) {
+            var _placement = '';
+            switch (placement) {
+            case 'left':
+                _placement = 'translate3d(-' + size + 'px, 0, 0) rotateY(15deg)';
+                break;
+            case 'top':
+                _placement = 'translate3d(0, -' + size + 'px, 0)';
+                break;
+            case 'right':
+                _placement = 'translate3d(' + size + 'px, 0, 0) rotateY(-15deg)';
+                break;
+            case 'bottom':
+                _placement = 'translate3d(0, ' + size + 'px, 0)';
+                break;
+            }
             return {
-                transform: isOpen ? '' : right ? 'translate3d(-' + width + 'px, 0, 0) rotateY(15deg)' : 'translate3d(' + width + 'px, 0, 0) rotateY(-15deg)',
-                transformOrigin: right ? '100% 50%' : '0% 50%',
+                transform: isOpen ? '' : _placement,
+                transformOrigin: placement ? '100% 50%' : '0% 50%',
                 transformStyle: 'preserve-3d',
                 transition: 'all 0.5s'
             };
@@ -701,9 +881,9 @@ function _interopRequireDefault(obj) {
 var _menuFactory = require('../menuFactory');
 var _menuFactory2 = _interopRequireDefault(_menuFactory);
 var styles = {
-        pageWrap: function pageWrap(isOpen, width) {
+        pageWrap: function pageWrap(isOpen, size) {
             return {
-                transform: isOpen ? '' : 'translate3d(0, 0, -' + width + 'px)',
+                transform: isOpen ? '' : 'translate3d(0, 0, -' + size + 'px)',
                 transformOrigin: '100%',
                 transformStyle: 'preserve-3d',
                 transition: 'all 0.5s'
@@ -724,9 +904,24 @@ function _interopRequireDefault(obj) {
 var _menuFactory = require('../menuFactory');
 var _menuFactory2 = _interopRequireDefault(_menuFactory);
 var styles = {
-        pageWrap: function pageWrap(isOpen, width, right) {
+        pageWrap: function pageWrap(isOpen, size, placement) {
+            var _placement = '';
+            switch (placement) {
+            case 'left':
+                _placement = 'translate3d(' + size + 'px, 0, 0) rotateY(-15deg)';
+                break;
+            case 'top':
+                _placement = 'translate3d(0, -' + size + 'px, 0)';
+                break;
+            case 'right':
+                _placement = 'translate3d(-100px, 0, -600px) rotateY(20deg)';
+                break;
+            case 'bottom':
+                _placement = 'translate3d(0, ' + size + 'px, 0)';
+                break;
+            }
             return {
-                transform: isOpen ? '' : right ? 'translate3d(-100px, 0, -600px) rotateY(20deg)' : 'translate3d(100px, 0, -600px) rotateY(-20deg)',
+                transform: isOpen ? '' : _placement,
                 transformStyle: 'preserve-3d',
                 transition: 'all 0.5s',
                 overflow: isOpen ? '' : 'hidden'
@@ -761,14 +956,29 @@ function _interopRequireDefault(obj) {
 var _menuFactory = require('../menuFactory');
 var _menuFactory2 = _interopRequireDefault(_menuFactory);
 var styles = {
-        menuWrap: function menuWrap(isOpen, width, right) {
-            width += 20;
+        menuWrap: function menuWrap(isOpen, size, placement) {
+            size += 20;
+            var _placement = '';
+            switch (placement) {
+            case 'left':
+                _placement = 'translate3d(-' + size + 'px, 0, 0)';
+                break;
+            case 'top':
+                _placement = 'translate3d(0, -' + size + 'px, 0)';
+                break;
+            case 'right':
+                _placement = 'translate3d(' + size + 'px, 0, 0)';
+                break;
+            case 'bottom':
+                _placement = 'translate3d(0, ' + size + 'px, 0)';
+                break;
+            }
             return {
-                transform: isOpen ? '' : right ? 'translate3d(' + width + 'px, 0, 0)' : 'translate3d(-' + width + 'px, 0, 0)',
+                transform: isOpen ? '' : _placement,
                 transition: isOpen ? 'transform 0.8s cubic-bezier(0.7, 0, 0.3, 1)' : 'transform 0.4s cubic-bezier(0.7, 0, 0.3, 1)'
             };
         },
-        item: function item(isOpen, width, right, nthChild) {
+        item: function item(isOpen, size, placement, nthChild) {
             return {
                 transform: isOpen ? '' : 'translate3d(0, ' + nthChild * 500 + 'px, 0)',
                 transition: isOpen ? 'transform 0.8s cubic-bezier(0.7, 0, 0.3, 1)' : 'transform 0s 0.2s cubic-bezier(0.7, 0, 0.3, 1)'
