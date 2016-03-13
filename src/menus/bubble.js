@@ -28,28 +28,60 @@ const styles = {
   },
 
   morphShape(isOpen, size, placement) {
-    return {
+    let _transform = '';
+    let _placement = '';
+    switch (placement) {
+      case 'left':
+        _placement = {
+          left: 0,
+          transform: 'rotateY(0deg)'
+        };
+        break;
+      case 'top':
+        _placement = {
+          top: 0,
+          transform: 'rotateY(90deg)' // TODO: ...
+        };
+        break;
+      case 'right':
+        _placement = {
+          right: 0,
+          transform: 'rotateY(180deg)'
+        };
+        break;
+      case 'bottom':
+        _placement = {
+          bottom: 0,
+          transform: 'rotateY(270deg)' // TODO: ...
+        };
+        break;
+    }
+
+    let _style = {
       position: 'fixed',
       width: '100%',
-      height: '100%',
-      placement: placement ? 'inherit' : 0,
-      left: placement ? 0 : 'inherit',
-      transform: placement ? 'rotateY(180deg)' : 'rotateY(0deg)'
+      height: '100%'
     };
+
+    _style = Object.assign(_style, _placement);
+
+    return _style;
   },
 
   menuWrap(isOpen, size, placement) {
     let _placement = '';
     switch (placement) {
       case 'left':
-        _placement = 'translate3d(100%, 0, 0)';
-        break;
-      case 'top':
-        break;
-      case 'right':
         _placement = 'translate3d(-100%, 0, 0)';
         break;
+      case 'top':
+        _placement = 'translate3d(0, -100%, 0)';
+        break;
+      case 'right':
+        _placement = 'translate3d(100%, 0, 0)';
+        break;
       case 'bottom':
+        _placement = 'translate3d(0, 100%, 0)';
         break;
     }
 
@@ -60,7 +92,7 @@ const styles = {
   },
 
   menu(isOpen, size, placement) {
-    size -= 140;
+    // size -= 140;
 
     let _placement = '';
     switch (placement) {
@@ -68,11 +100,13 @@ const styles = {
         _placement = `translate3d(-${size}px, 0, 0)`;
         break;
       case 'top':
+        _placement = `translate3d(0, -${size}px, 0)`;
         break;
       case 'right':
         _placement = `translate3d(${size}px, 0, 0)`;
         break;
       case 'bottom':
+        _placement = `translate3d(0, ${size}px, 0)`;
         break;
     }
 
@@ -85,7 +119,7 @@ const styles = {
   },
 
   item(isOpen, size, placement, nthChild) {
-    size -= 140;
+    // size -= 140;
 
     let _placement = '';
     switch (placement) {
@@ -93,11 +127,13 @@ const styles = {
         _placement = `translate3d(-${size}px, 0, 0)`;
         break;
       case 'top':
+        _placement = `translate3d(0, -${size}px, 0)`;
         break;
       case 'right':
         _placement = `translate3d(${size}px, 0, 0)`;
         break;
       case 'bottom':
+        _placement = `translate3d(0, ${size}px, 0)`;
         break;
     }
 
@@ -109,7 +145,7 @@ const styles = {
   },
 
   closeButton(isOpen, size, placement) {
-    size -= 140;
+    // size -= 140;
 
     let _placement = '';
     switch (placement) {
@@ -117,11 +153,13 @@ const styles = {
         _placement = `translate3d(-${size}px, 0, 0)`;
         break;
       case 'top':
+        _placement = `translate3d(0, -${size}px, 0)`;
         break;
       case 'right':
         _placement = `translate3d(${size}px, 0, 0)`;
         break;
       case 'bottom':
+        _placement = `translate3d(0, ${size}px, 0)`;
         break;
     }
 

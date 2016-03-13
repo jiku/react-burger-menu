@@ -20,8 +20,6 @@ let styles = {
     let _placement = {};
     let _dimensions = {};
 
-    console.log("Yo then", isOpen, size, placement);
-
     switch (placement) {
       case 'left':
         _transform = 'translate3d(-100%, 0, 0)';
@@ -29,7 +27,6 @@ let styles = {
           left: 0,
           top: 0
         };
-        // _right = 0; // Screen width - this width, etc. But really don't inform.
         break;
       case 'top':
         _transform = 'translate3d(0, -100%, 0)';
@@ -97,12 +94,11 @@ let styles = {
   },
 
   itemList(isOpen, size, placement) {
-    console.log("list says", placement, size);
     let _style = {};
     if (placement === 'left' || placement === 'right') {
       _style = {
         width: size.width,
-        height: '100%'
+        height: '100%',
       };
     } else {
       _style = {
@@ -110,6 +106,7 @@ let styles = {
         height: size.height
       };
     }
+
     return _style;
   },
 

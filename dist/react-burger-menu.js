@@ -41,6 +41,9 @@ var BurgerIcon = (0, _radium2['default'])(_react2['default'].createClass({
             var buttonStyle = {
                     position: 'absolute',
                     left: 0,
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
                     margin: 0,
                     padding: 0,
                     border: 'none',
@@ -248,7 +251,6 @@ var styles = {
             var _transform = '';
             var _placement = {};
             var _dimensions = {};
-            console.log('Yo then', isOpen, size, placement);
             switch (placement) {
             case 'left':
                 _transform = 'translate3d(-100%, 0, 0)';
@@ -317,7 +319,6 @@ var styles = {
             return _style;
         },
         itemList: function itemList(isOpen, size, placement) {
-            console.log('list says', placement, size);
             var _style = {};
             if (placement === 'left' || placement === 'right') {
                 _style = {
@@ -432,7 +433,6 @@ exports['default'] = function (styles) {
             if (this.props.styles[propName]) {
                 output.push(this.props.styles[propName]);
             }
-            console.log(propName, output);
             return output;
         },
         listenForClose: function listenForClose(e) {
@@ -490,7 +490,7 @@ exports['default'] = function (styles) {
                     var snap = undefined;
                     try {
                         snap = function () {
-                            throw new Error('Cannot find module \'imports?this=>window,fix=>module.exports=0!snapsvg/dist/snap.svg.js\' from \'/Volumes/Data/Dev/Projects/jiku/Again/app/src/.meteor/local/webpack-npm/node_modules/react-burger-menu/src\'');
+                            throw new Error('Cannot find module \'imports?this=>window,fix=>module.exports=0!snapsvg/dist/snap.svg.js\' from \'/Users/jiku/Documents/dev/Components/react-burger-menu/src\'');
                         }();
                     } catch (e) {
                         snap = typeof window !== 'undefined' ? window['Snap'] : typeof global !== 'undefined' ? global['Snap'] : null;

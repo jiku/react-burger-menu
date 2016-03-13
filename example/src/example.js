@@ -92,7 +92,6 @@ let Demo = React.createClass({
     const Menu = BurgerMenu[this.state.currentMenu];
     const items = this.getItems();
     let jsx;
-    console.log("In getMenu", this.state.placement);
 
     jsx = (
       <MenuWrap wait={ 20 } placement={ this.state.placement }>

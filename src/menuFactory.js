@@ -101,8 +101,6 @@ export default (styles) => {
         output.push(this.props.styles[propName]);
       }
 
-      console.log(propName, output);
-
       return output;
     },
 
