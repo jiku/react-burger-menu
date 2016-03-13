@@ -203,6 +203,7 @@ export default (styles) => {
         items = React.Children.map(this.props.children, (item, index) => {
           let extraProps = {
             key: index,
+            onClick: this.toggleMenu, 
             style: this.getStyles('item', index)
           };
 
